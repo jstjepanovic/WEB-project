@@ -26,7 +26,7 @@ const UpdateBoardGame = async (db, boardGameId, boardGame) =>{
     let _id = new mongodb.ObjectId(boardGameId);
 
     let newBoardGame = { $set: { name: boardGame.name, rating: boardGame.rating, weight: boardGame.weight, age: boardGame.age, avgPlayingTime: boardGame.avgPlayingTime,
-                                 publisher: boardGame.publisher} }
+                                 publisher: boardGame.publisher, noPlayersMin: boardGame.noPlayersMin, noPlayersMax: boardGame.noPlayersMax, genreId: boardGame.genreId } }
 
     return await collection.updateOne({ _id }, newBoardGame);
 }

@@ -2,6 +2,7 @@ const express = require("express");
 const mongodb = require("mongodb");
 const dbConnect = require("./Database/connect");
 const dbBoardGame = require("./Database/databaseBoardGame");
+const dbReview = require("./Database/databaseReview");
 
 const port = 3000;
 
@@ -35,7 +36,7 @@ const port = 3000;
         res.send({
             status: await dbBoardGame.DeleteBoardGame(db, req.params.boardGameId)
         });
-    })
+    });
 
     app.patch("/api/boardGame/:boardGameId", async (req, res) =>{
         let boardGame = req.body;
@@ -44,7 +45,41 @@ const port = 3000;
             status: await dbBoardGame.UpdateBoardGame(db, req.params.boardGameId, boardGame)
         });
 
-    })
+    });
+
+    app.get("/api/review", async (req, res) => {
+
+        res.send(await dbReview.FindAllReviews(db));
+    });
+
+    app.get("/api/review/:boardGameId", async (req, res) => {
+
+        res.send(await dbReview.FindReviews(db, req.params.boardGameId));
+    });
+
+    app.post("/api/review", async (req, res) => {
+        let review = req.body;
+
+        res.send({
+            status: await dbReview.CreateReview(db, review)
+        });
+    });
+
+    app.delete("/api/review/:reviewId", async (req, res) =>{
+
+        res.send({
+            status: await dbReview.DeleteReview(db, req.params.reviewId)
+        });
+    });
+
+    app.patch("/api/review/:reviewId", async (req, res) =>{
+        let review = req.body;
+
+        res.send({
+            status: await dbReview.UpdateReview(db, req.params.reviewId, review)
+        });
+
+    });
     
  
     app.listen(port, () => {

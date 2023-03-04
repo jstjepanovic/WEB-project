@@ -1,0 +1,24 @@
+@import 'bootstrap/scss/bootstrap';
+@import '../../variables.scss';
+
+#home-section {
+    height: 600px;
+
+    h1 {
+        font-weight: 700;
+    }
+
+    p {
+        font-size: 20px;
+    }
+
+    .curtain {
+        background-color: rgba($color: $primary, $alpha: 0.8);
+
+        img {
+            opacity: 0.8;
+        }
+
+    }
+
+}

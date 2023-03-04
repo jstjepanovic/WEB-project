@@ -3,6 +3,7 @@ const mongodb = require("mongodb");
 const dbConnect = require("./Database/connect");
 const dbBoardGame = require("./Database/databaseBoardGame");
 const dbReview = require("./Database/databaseReview");
+const category = require("./category");
 
 const port = 3000;
 
@@ -12,6 +13,11 @@ const port = 3000;
     app.use(express.json());
 
     let db = await dbConnect.ConnectDatabase("BoardFrenzy");
+
+    app.get("/api/category", async (req, res) => {
+
+        res.send(category.categories);
+    });
 
     app.get("/api/boardGame", async (req, res) => {
 

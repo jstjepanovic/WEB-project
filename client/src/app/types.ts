@@ -1,5 +1,17 @@
 export interface BoardGame {
     boardGameId: string,
+    name: string,
+    rating: number,
+    weight: number,
+    age: number,
+    avgPlayingTime: number,
+    publisher: string,
+    noPlayersMin: number,
+    noPlayersMax: number,
+    genreIds: string[]
+}
+
+export interface BoardGameCreate {
     rating: number,
     weight: number,
     age: number,

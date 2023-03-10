@@ -3,7 +3,7 @@ const mongodb = require("mongodb");
 const dbConnect = require("./Database/connect");
 const dbBoardGame = require("./Database/databaseBoardGame");
 const dbReview = require("./Database/databaseReview");
-const category = require("./category");
+const dbGenres = require("./Database/databaseGenre");
 
 const port = 3000;
 
@@ -14,11 +14,19 @@ const port = 3000;
 
     let db = await dbConnect.ConnectDatabase("BoardFrenzy");
 
-    app.get("/api/category", async (req, res) => {
+    // dbGenres.CreateGenres(db, dbGenres.genres)
 
-        res.send(category.categories);
+    app.get("/api/genres", async (req, res) => {
+
+        res.send(await dbGenres.FindAllGenre(db));
     });
 
+    app.get("/api/genresById", async (req, res) => {
+        let genres = req.body.genreIds
+
+        res.send(await dbGenres.FindGenreById(db, genres));
+    });
+ 
     app.get("/api/boardGame", async (req, res) => {
 
         res.send(await dbBoardGame.FindAllBoardGame(db));

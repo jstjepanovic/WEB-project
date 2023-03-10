@@ -17,7 +17,7 @@ const FindBoardGame = async (db, boardGameId) =>{
 
     let _id = new mongodb.ObjectId(boardGameId);
 
-    return await collection.find({ _id }).toArray();
+    return await collection.findOne({ _id });
 }
 
 const UpdateBoardGame = async (db, boardGameId, boardGame) =>{
@@ -26,7 +26,7 @@ const UpdateBoardGame = async (db, boardGameId, boardGame) =>{
     let _id = new mongodb.ObjectId(boardGameId);
 
     let newBoardGame = { $set: { name: boardGame.name, rating: boardGame.rating, weight: boardGame.weight, age: boardGame.age, avgPlayingTime: boardGame.avgPlayingTime,
-                                 publisher: boardGame.publisher, noPlayersMin: boardGame.noPlayersMin, noPlayersMax: boardGame.noPlayersMax, genreId: boardGame.genreId } }
+                                 publisher: boardGame.publisher, noPlayersMin: boardGame.noPlayersMin, noPlayersMax: boardGame.noPlayersMax, genreIds: boardGame.genreIds } }
 
     return await collection.updateOne({ _id }, newBoardGame);
 }

@@ -29,19 +29,27 @@ export class BoardGameService {
   }
 
   createBoardGame(boardGame: BoardGameCreate){
-    this.http.post<{boardGame: BoardGameCreate}>(
-      `${this.url}`, { boardGame }
-    )
+    this.http.post<BoardGameCreate>(
+      this.url, boardGame
+    ).subscribe((res: BoardGameCreate) => {
+      console.log(res);
+    });
   }
 
   updateBoardGame(boardGameId: string, boardGame: BoardGameCreate){ 
-    this.http.patch<{boardGame: BoardGameCreate}>(
-      `${this.url}${boardGameId}`, { boardGame }
-    )
+    this.http.patch<BoardGameCreate>(
+      `${this.url}${boardGameId}`, boardGame
+    ).subscribe((res: BoardGameCreate) => {
+      console.log(res);
+    });
   }
 
   deleteBoardGame(boardGameId: string){
-    this.http.delete<{}>(`${this.url}${boardGameId}`)
+    this.http.delete<{}>(
+      `${this.url}${boardGameId}`
+    ).subscribe((res: {}) => {
+      console.log(res);
+    });
   }
 
 }

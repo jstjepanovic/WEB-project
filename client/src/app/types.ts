@@ -1,5 +1,5 @@
 export interface BoardGame {
-    boardGameId: string,
+    _id: string,
     name: string,
     rating: number,
     weight: number,
@@ -23,12 +23,12 @@ export interface BoardGameCreate {
 }
 
 export interface Genre {
-    genreId: string,
+    _id: string,
     name: string
 }
 
 export interface Review {
-    reviewId: string,
+    _id: string,
     rating: number,
     weight: number,
     text: string,
@@ -37,7 +37,7 @@ export interface Review {
 }
 
 export interface User {
-    userId: string,
+    _id: string,
     email: string,
     username: string,
     password: string

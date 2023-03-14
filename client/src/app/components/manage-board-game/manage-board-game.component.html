@@ -1,0 +1,35 @@
+<div>
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <div class="mb-3">
+            <label for="nameInput" class="form-label">Name</label>
+            <input formControlName="name" type="text" class="form-control" id="nameInput">
+        </div>
+        <div class="mb-3">
+            <label for="ageInput" class="form-label">Age</label>
+            <input formControlName="age" type="number" class="form-control" id="ageInput">
+        </div>
+        <div class="mb-3">
+            <label for="playingTimeInput" class="form-label">Playing Time</label>
+            <input formControlName="avgPlayingTime" type="number" class="form-control" id="playingTimeInput">
+        </div>
+        <div class="mb-3">
+            <label for="publisherInput" class="form-label">Publisher</label>
+            <input formControlName="publisher" type="text" class="form-control" id="publisherInput">
+        </div>
+        <div class="mb-3">
+            <label for="noPlayersMinInput" class="form-label">noPlayersMin</label>
+            <input formControlName="noPlayersMin" type="number" class="form-control" id="noPlayersMinInput">
+        </div>
+        <div class="mb-3">
+            <label for="noPlayersMaxInput" class="form-label">noPlayersMax</label>
+            <input formControlName="noPlayersMax" type="number" class="form-control" id="noPlayersMaxInput">
+        </div>
+        <div class="mb-3">
+            <select multiple name="genres" formControlName="genreIds">
+                <option *ngFor="let genre of genreService.genres | async" [value]="genre._id">{{ genre.name }}</option>
+            </select>
+        </div>
+        <button [disabled]="!form.valid" type="submit" class="btn btn-primary" >Submit</button>
+    </form>
+    
+</div>

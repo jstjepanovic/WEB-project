@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
 import { BoardGame, BoardGameCreate } from '../types';
 import { HttpClient } from "@angular/common/http";
@@ -9,19 +9,12 @@ import { HttpClient } from "@angular/common/http";
 })
 export class BoardGameService {
 
-  constructor(protected http: HttpClient) { 
-    this.getBoardGames();
-  }
+  constructor(protected http: HttpClient) { }
 
   private readonly url = "/api/boardGame/";
 
-  boardGames: BehaviorSubject<BoardGame[]> = new BehaviorSubject<BoardGame[]>([]);
-
-  getBoardGames(){
-    this.http.get<BoardGame[]>(this.url)
-      .subscribe((boardGame: BoardGame[])=>{
-        this.boardGames.next(boardGame);
-      });
+  getBoardGames() : Observable<BoardGame[]>{
+    return this.http.get<BoardGame[]>(this.url)
   }
 
   getBoardGame(boardGameId: string){

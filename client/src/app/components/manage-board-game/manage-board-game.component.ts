@@ -1,19 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators } from "@angular/forms";
 
 import { BoardGameService } from 'src/app/services/board-game.service';
 import { GenreService } from 'src/app/services/genre.service';
-import { BoardGameCreate } from 'src/app/types';
+import { BoardGameCreate, Genre } from 'src/app/types';
 
 @Component({
   selector: 'app-manage-board-game',
   templateUrl: './manage-board-game.component.html',
   styleUrls: ['./manage-board-game.component.scss']
 })
-export class ManageBoardGameComponent {
+export class ManageBoardGameComponent implements OnInit {
 
   constructor( protected bgService: BoardGameService, protected genreService: GenreService ){}
+
+  genres : Genre[] = [];
+
+  ngOnInit(): void {
+    this.genreService.getGenres().subscribe(
+      (data) => {
+        this.genres = data;
+      },
+      (error) => {
+        console.error('Error fetching elements:', error);
+      }
+    );
+  }
 
   form: FormGroup = new FormGroup({
     name: new FormControl("", [Validators.required]),

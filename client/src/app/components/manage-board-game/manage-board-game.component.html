@@ -26,7 +26,7 @@
         </div>
         <div class="mb-3">
             <select multiple name="genres" formControlName="genreIds">
-                <option *ngFor="let genre of genreService.genres | async" [value]="genre._id">{{ genre.name }}</option>
+                <option *ngFor="let genre of genres" [value]="genre._id">{{ genre.name }}</option>
             </select>
         </div>
         <button [disabled]="!form.valid" type="submit" class="btn btn-primary" >Submit</button>

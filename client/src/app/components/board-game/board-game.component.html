@@ -1,0 +1,44 @@
+
+<h2>{{ boardGame?.name }} Profile</h2>
+
+<button *ngIf="isAuthenticated" (click)="addReview()">Add Review</button>
+
+<div [hidden]="toReview">
+    <form [formGroup]="form" (ngSubmit)="submitForm()">
+        <div class="mb-3">
+            <label for="text" class="form-label">Text</label>
+            <input formControlName="text" type="text" class="form-control" id="text">
+        </div>
+        <div class="mb-3">
+            <select name="rating" formControlName="rating">
+                <option *ngFor="let number of numbersRating" [value]="number">{{ number }}</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <select name="weight" formControlName="weight">
+                <option *ngFor="let number of numbersWeight" [value]="number">{{ number }}</option>
+            </select>
+        </div>
+        <button [disabled]="!form.valid" type="submit" class="btn btn-primary" >Submit</button>
+    </form>
+</div>    
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+        <th>Text</th>
+        <th>Rating</th>
+        <th>Weight</th>
+        <th>User</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let review of reviews">
+        <td>{{ review.text }}</td>
+        <td>{{ review.rating }}</td>
+        <td>{{ review.weight }}</td>
+        <td>{{ review.weight }}</td>
+        </tr>
+    </tbody>
+</table>
+

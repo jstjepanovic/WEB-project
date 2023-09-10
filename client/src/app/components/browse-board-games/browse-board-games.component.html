@@ -1,0 +1,32 @@
+<div class="md-form">
+    <input type="search" [(ngModel)]="boardGameName" placeholder="Search">
+</div>
+
+<table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Rating</th>
+        <th>Weight</th>
+        <th>Age</th>
+        <th>AvgPlayingTime</th>
+        <th>NoPlayersMin</th>
+        <th>NoPlayersMax</th>
+        <th>Publisher</th>
+        <th>Genres</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let boardgame of modifiedBoardGames | filter: boardGameName">
+        <td><a [routerLink]="[boardgame._id]" [queryParams]=" { boardGameId: boardgame._id }"> {{ boardgame.name }} </a></td>
+        <td>{{ boardgame.rating }}</td>
+        <td>{{ boardgame.weight }}</td>
+        <td>{{ boardgame.age.toString() | appendString : '+' }}</td>
+        <td>{{ boardgame.avgPlayingTime.toString() | appendString : ' min' }}</td>
+        <td>{{ boardgame.noPlayersMin }}</td>
+        <td>{{ boardgame.noPlayersMax }}</td>
+        <td>{{ boardgame.publisher }}</td>
+        <td>{{ boardgame.genreIds.join(', ') }}</td>
+      </tr>
+    </tbody>
+</table>

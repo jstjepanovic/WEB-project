@@ -5,18 +5,29 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav" [ngbCollapse]="isMenuCollapsed">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav me-auto">
                 <li class="nav-item">
                     <a class="nav-link" routerLinkActive="active" routerLink="/home" >Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Marketplace</a>
+                    <a class="nav-link" routerLinkActive="active" routerLink="/browse" >Games</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Profile</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLinkActive="active" routerLink="/manage" >Disabled</a>
+                <li *ngIf="isAuthenticated" class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" routerLink="/manage" >Add game</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav" style="float:right">
+                <li *ngIf="!isAuthenticated" class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" routerLink="/register" >Register</a>
+                </li>
+                <li *ngIf="!isAuthenticated" class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" routerLink="/login" >Login</a>
+                </li>
+                <li *ngIf="isAuthenticated" class="nav-item">
+                    <a class="nav-link" routerLinkActive="active" routerLink="/logout" (click)="logout()">Logout</a>
                 </li>
             </ul>
         </div>

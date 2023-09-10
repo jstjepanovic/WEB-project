@@ -36,9 +36,21 @@ export interface Review {
     boardGameId: string
 }
 
+export interface ReviewCreate {
+    rating: number,
+    weight: number,
+    text: string,
+    userId: string,
+    boardGameId: string
+}
+
 export interface User {
     _id: string,
-    email: string,
+    username: string,
+    password: string
+}
+
+export interface UserCreate {
     username: string,
     password: string
 }

@@ -7,15 +7,16 @@ import { BoardGameComponent } from './components/board-game/board-game.component
 import { RegisterComponent } from './components/register/register.component';
 import { LoginComponent } from './components/login/login.component';
 import { RouteGuard } from './route-guard';
+import { ProfileComponent } from './components/profile/profile.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "home", pathMatch: "full" },
   { path: "home", component: HomeComponent },
   { path: "manage", component: ManageBoardGameComponent, canActivate:[RouteGuard] },
-  { path: "browse", component: BrowseBoardGamesComponent },
-  { path: "browse/:boardGameId", component: BoardGameComponent },
+  { path: "browse", children: [{path: '', component: BrowseBoardGamesComponent}, {path: ':boardGameId', component: BoardGameComponent}] },
   { path: "register", component: RegisterComponent },
   { path: "login", component: LoginComponent },
+  { path: "profile/:userId", component: ProfileComponent, canActivate:[RouteGuard] },
   { path: "**", redirectTo: "home" }
 ];
 

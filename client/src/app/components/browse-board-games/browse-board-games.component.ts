@@ -50,8 +50,4 @@ export class BrowseBoardGamesComponent implements OnInit {
   }
 
   
-
-  replaceGenreIds() {
-    
-  }
 }

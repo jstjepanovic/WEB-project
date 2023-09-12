@@ -19,8 +19,8 @@
     <tbody>
       <tr *ngFor="let boardgame of modifiedBoardGames | filter: boardGameName">
         <td><a [routerLink]="[boardgame._id]" [queryParams]=" { boardGameId: boardgame._id }"> {{ boardgame.name }} </a></td>
-        <td>{{ boardgame.rating }}</td>
-        <td>{{ boardgame.weight }}</td>
+        <td>{{ boardgame.rating | number:'1.2-2' }}</td>
+        <td>{{ boardgame.weight | number:'1.2-2' }}</td>
         <td>{{ boardgame.age.toString() | appendString : '+' }}</td>
         <td>{{ boardgame.avgPlayingTime.toString() | appendString : ' min' }}</td>
         <td>{{ boardgame.noPlayersMin }}</td>

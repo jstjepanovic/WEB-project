@@ -12,4 +12,20 @@ const FindUsername = async (db, username) =>{
     return await collection.findOne({ username });
 }
 
-module.exports = { CreateUser, FindUsername }
+const FindUser = async (db, userId) =>{
+    const collection = db.collection("user");
+
+    let _id = new mongodb.ObjectId(userId);
+
+    return await collection.findOne({ _id }, {'_id': 0, 'username': 1, 'imagePath': 1});
+}
+ 
+const UpdateAvatar = async (db, userId, imagePath) =>{
+    const collection = db.collection("user");
+
+    let _id = new mongodb.ObjectId(userId);
+
+    return await collection.updateOne({ _id }, {$set: { imagePath }});
+}
+
+module.exports = { CreateUser, FindUsername, FindUser, UpdateAvatar }

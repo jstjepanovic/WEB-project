@@ -33,7 +33,8 @@ export interface Review {
     weight: number,
     text: string,
     userId: string,
-    boardGameId: string
+    boardGameId: string,
+    creator: {username : string}[]
 }
 
 export interface ReviewCreate {
@@ -44,13 +45,13 @@ export interface ReviewCreate {
     boardGameId: string
 }
 
-export interface User {
-    _id: string,
+export interface UserGet {
     username: string,
-    password: string
+    imagePath: string,
 }
 
 export interface UserCreate {
     username: string,
-    password: string
+    password: string,
+    imagePath: string,
 }

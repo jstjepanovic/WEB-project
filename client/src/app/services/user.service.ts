@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { UserCreate } from '../types';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { UserCreate, UserGet } from '../types';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -13,6 +13,7 @@ export class UserService {
   private authenticatedSub = new Subject<boolean>();
   private isAuthenticated = false;
   private logoutTimer: any;
+  private tokenSubject = new BehaviorSubject<string>('');
 
   getIsAuthenticated(){
     return this.isAuthenticated;
@@ -22,11 +23,35 @@ export class UserService {
     return this.authenticatedSub.asObservable();
   }
 
-  getToken(){
-    return this.token;
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+    this.tokenSubject.next(token);
   }
 
+  getToken() {
+    return this.tokenSubject.value;
+  }
+
+  getTokenChanges() {
+    return this.tokenSubject.asObservable();
+  }
+
+
   constructor(private http: HttpClient, private router: Router) {}
+
+  getUser(userId: string){
+    return this.http.get<UserGet>(`/api/user/${userId}`);
+  }
+
+  uploadAvatar(userId: String, file: File): Observable<any> {
+    const formData: FormData = new FormData();
+    formData.append('avatar', file);
+
+    const headers = new HttpHeaders();
+    headers.append('Accept', 'application/json');
+
+    return this.http.post(`/api/upload-avatar/${userId}`, formData, { headers });
+  }
 
   register(user: UserCreate){
     this.http.post(
@@ -41,6 +66,7 @@ export class UserService {
       "/api/login/", user
     ).subscribe((res: {token : string, expiresIn: number}) => {
       this.token = res.token;
+      this.setToken(res.token)
       if(this.token){
         this.authenticatedSub.next(true);
         this.isAuthenticated = true;
@@ -55,6 +81,7 @@ export class UserService {
 
   logout(){
     this.token = '';
+    this.setToken('');
     this.isAuthenticated = false;
     this.authenticatedSub.next(false);
     this.router.navigate(['/']);
@@ -92,6 +119,7 @@ export class UserService {
 
       if(expiresIn > 0){
         this.token = localStorageData.token;
+        this.setToken(localStorageData.token);
         this.authenticatedSub.next(true);
         this.isAuthenticated = true;
         this.logoutTimer.setTimeout(expiresIn / 1000);

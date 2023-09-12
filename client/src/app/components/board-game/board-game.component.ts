@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { Subscription } from 'rxjs';
 import { BoardGameService } from 'src/app/services/board-game.service';
 import { ReviewService } from 'src/app/services/review.service';
@@ -13,17 +14,18 @@ import { BoardGame, Review, ReviewCreate } from 'src/app/types';
   styleUrls: ['./board-game.component.scss']
 })
 export class BoardGameComponent implements OnInit, OnDestroy {
+  userId: string = '';
   boardGameId: string = '';
   reviews: Review[] = [];
-  boardGame: BoardGame | null = null
+  boardGame: BoardGame | null = null;
   numbersRating: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
   numbersWeight: number[] = Array.from({ length: 5 }, (_, i) => i + 1);
   toReview = true;
   isAuthenticated: boolean = false;
   private AuthenticatedSub!: Subscription;
 
-  constructor(private route: ActivatedRoute, protected reviewService: ReviewService,
-              protected boardGameService: BoardGameService, protected userService: UserService) {
+  constructor(private route: ActivatedRoute, private reviewService: ReviewService,
+              private boardGameService: BoardGameService, private userService: UserService, private jwtHelper: JwtHelperService) {
     this.boardGameId = this.route.snapshot.queryParamMap.get('boardGameId')!;
   }
 
@@ -52,6 +54,11 @@ export class BoardGameComponent implements OnInit, OnDestroy {
 
     this.isAuthenticated = this.userService.getIsAuthenticated();
 
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = this.jwtHelper.decodeToken(token);
+      this.userId = decodedToken._id;
+    }
   }
 
   addReview() {
@@ -65,10 +72,12 @@ export class BoardGameComponent implements OnInit, OnDestroy {
   });
 
   submitForm() {
-    let newReview: ReviewCreate = this.form.value;
+    let value = this.form.value;
     this.form.reset();
-    
-    this.reviewService.createReview(newReview)
+
+    let newReview: ReviewCreate = { rating: value.rating, weight: value.weight, text: value.text, userId: this.userId, boardGameId: this.boardGameId }
+
+    this.reviewService.createReview(newReview);
 
   }
 

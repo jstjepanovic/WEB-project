@@ -1,0 +1,28 @@
+<div *ngIf="user">
+
+<h1>{{user.username}}</h1>
+
+<hr />
+<div class="avatar-upload">
+    <h2>Upload Avatar</h2>
+    <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+      <div class="form-group">
+        <input
+          type="file"
+          id="avatar"
+          name="avatar"
+          accept="image/*"
+          (change)="onFileSelected($event)"
+          class="form-control-file"
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+
+    <div *ngIf="user.imagePath" class="avatar-preview">
+        <h3>Uploaded Avatar:</h3>
+        <img [src]="user.imagePath" alt="User Avatar" />
+    </div>
+</div>
+
+</div>

@@ -1,5 +1,6 @@
 const express = require("express");
 const mongodb = require("mongodb");
+const path = require("path");
 const dbConnect = require("./Database/connect");
 const dbBoardGame = require("./Database/databaseBoardGame");
 const dbReview = require("./Database/databaseReview");
@@ -9,6 +10,18 @@ const dbUser = require("./Database/databaseUser")
 const crypto = require("crypto");
 const util = require("util");
 const jwt = require("jsonwebtoken");
+
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: './images',
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+      cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    },
+});
+
+const upload = multer({ storage: storage });
 
 const randomBytesAsync = util.promisify(crypto.randomBytes);
 const pbkdf2Async = util.promisify(crypto.pbkdf2);
@@ -21,6 +34,7 @@ const port = 3000;
     const app = express();
     app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
+    app.use('/images', express.static(path.join(__dirname, 'images')));
 
     let db = await dbConnect.ConnectDatabase("BoardFrenzy");
 
@@ -85,15 +99,14 @@ const port = 3000;
 
         try{
             const token = req.headers.authorization;
-        jwt.verify(token, secret)
+            jwt.verify(token, secret)
+            next();
         } catch (error){
             res.status(401).json({ message: 'Error with authentication token' });
         }
         
 
-    }, async (req, res) => {
-        
-        
+    }, async (req, res) => {        
         let review = req.body;
 
         res.send({
@@ -117,6 +130,23 @@ const port = 3000;
 
     });
 
+    app.get("/api/user/:userId", async (req, res) => {
+
+        res.send(await dbUser.FindUser(db, req.params.userId));
+    });
+
+    app.post('/api/upload-avatar/:userId', upload.single('avatar'), async (req, res) => {
+        if (!req.file) {
+          return res.status(400).json({ message: 'No file provided' });
+        }
+      
+        const filePath = req.file.path;
+        const baseUrl = 'http://localhost:3000';
+      
+        res.send(await dbUser.UpdateAvatar(db, req.params.userId, baseUrl + '/images/' + path.basename(filePath)));
+      });
+
+ 
     app.post('/api/register', async (req, res) => {
         try {
             const user = req.body;
@@ -144,7 +174,7 @@ const port = 3000;
             res.status(500).json({ message: 'Registration failed' });
         }
     });
-    
+     
     app.post('/api/login', async (req, res) => {
         try {
             const user = req.body;
@@ -158,7 +188,7 @@ const port = 3000;
             const hash = (await pbkdf2Async(user.password, existingUser.salt, 1000, 64, "sha512")).toString("hex");
 
             if(hash == existingUser.hash){
-                const token = jwt.sign({ existingUser: user.username, _id: existingUser._id}, secret, {'expiresIn':"1h"})
+                const token = jwt.sign({ username: user.username, _id: existingUser._id}, secret, {'expiresIn':"1h"})
                 res.status(200).json({
                     token,
                     expiresIn: 3600
@@ -172,6 +202,8 @@ const port = 3000;
             res.status(401).json({ message: 'Authentication failed' });
         }
     });
+
+    
  
     app.listen(port, () => {
         console.log(`Server is listening at ${port}`);

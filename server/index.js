@@ -221,21 +221,6 @@ const port = 3000;
         }
     });
 
-    
-    /*
-    https
-    .createServer(
-        {
-        key: fs.readFileSync("./ssl/key.pem"),
-        cert: fs.readFileSync("./ssl/cert.pem"),
-        },
-        app
-    )
-    .listen(port, () => {
-        console.log("server is listening at port ${port}");
-    });
-    */
-
     app.listen(port, () => {
         console.log(`Server is listening at ${port}`);
     });

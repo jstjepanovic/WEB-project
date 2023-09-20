@@ -50,7 +50,7 @@ export interface ReviewCreate {
     weight: number,
     text: string,
     userId: string,
-    boardGameId: string
+    boardGameId: string,
 }
 
 export interface UserGet {

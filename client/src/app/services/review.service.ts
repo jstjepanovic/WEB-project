@@ -11,7 +11,7 @@ export class ReviewService {
 
   constructor(protected http: HttpClient) {}
 
-  private readonly url = "/api/review/";
+  private readonly url = "https://board-frenzy.onrender.com/api/review/";
 
   getAllReviews() : Observable<ReviewBG[]>{
     return this.http.get<ReviewBG[]>(this.url)
@@ -22,7 +22,7 @@ export class ReviewService {
   }
 
   getUserReviews(userId: string){
-    return this.http.get<ReviewProfile[]>(`/api/userreview/${userId}`);
+    return this.http.get<ReviewProfile[]>(`https://board-frenzy.onrender.com/api/userreview/${userId}`);
   }
 
   createReview(review: ReviewCreate){

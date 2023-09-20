@@ -10,11 +10,11 @@ import { HttpClient } from "@angular/common/http";
 })
 export class GenreService {
 
-  constructor(protected http: HttpClient) { 
-  }
+  constructor(protected http: HttpClient) {}
+  private readonly url = "https://board-frenzy.onrender.com/api/genres/";
 
   getGenres(){
-    return this.http.get<Genre[]>('/api/genres/')
+    return this.http.get<Genre[]>(this.url)
   }
 
 }

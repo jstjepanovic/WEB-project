@@ -11,7 +11,7 @@ export class BoardGameService {
 
   constructor(protected http: HttpClient) { }
 
-  private readonly url = "/api/boardGame/";
+  private readonly url = "https://board-frenzy.onrender.com/api/boardGame/";
 
   getBoardGames() : Observable<BoardGame[]>{
     return this.http.get<BoardGame[]>(this.url)

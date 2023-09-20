@@ -11,14 +11,14 @@ export class BoardGameService {
 
   constructor(protected http: HttpClient) { }
 
-  private readonly url = "https://board-frenzy.onrender.com/api/boardGame/";
+  private readonly url = "https://board-frenzy.onrender.com/api/boardGame";
 
   getBoardGames() : Observable<BoardGame[]>{
     return this.http.get<BoardGame[]>(this.url)
   }
 
   getBoardGame(boardGameId: string){
-    return this.http.get<BoardGame>(`${this.url}${boardGameId}`);
+    return this.http.get<BoardGame>(`${this.url}/${boardGameId}`);
   }
 
   createBoardGame(boardGame: BoardGameCreate){
@@ -31,7 +31,7 @@ export class BoardGameService {
 
   updateBoardGame(boardGameId: string, boardGame: BoardGameCreate){ 
     this.http.patch<BoardGameCreate>(
-      `${this.url}${boardGameId}`, boardGame
+      `${this.url}/${boardGameId}`, boardGame
     ).subscribe((res: BoardGameCreate) => {
       console.log(res);
     });
@@ -39,7 +39,7 @@ export class BoardGameService {
 
   deleteBoardGame(boardGameId: string){
     this.http.delete<{}>(
-      `${this.url}${boardGameId}`
+      `${this.url}/${boardGameId}`
     ).subscribe((res: {}) => {
       console.log(res);
     });

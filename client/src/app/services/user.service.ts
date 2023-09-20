@@ -15,7 +15,7 @@ export class UserService {
   private logoutTimer: any;
   private tokenSubject = new BehaviorSubject<string>('');
 
-  private readonly url = "https://board-frenzy.onrender.com/api/";
+  private readonly url = "https://board-frenzy.onrender.com/api";
 
   getIsAuthenticated(){
     return this.isAuthenticated;
@@ -52,12 +52,12 @@ export class UserService {
     const headers = new HttpHeaders();
     headers.append('Accept', 'application/json');
 
-    return this.http.post(`${this.url}/api/upload-avatar/${userId}`, formData, { headers });
+    return this.http.post(`${this.url}/upload-avatar/${userId}`, formData, { headers });
   }
 
   register(user: UserCreate){
     this.http.post(
-      `${this.url}/api/register/`, user
+      `${this.url}/register/`, user
     ).subscribe(res => {
       console.log(res);
     });
@@ -65,7 +65,7 @@ export class UserService {
 
   login(user: UserCreate){
     this.http.post<{token : string, expiresIn: number}>(
-      `${this.url}/api/login/`, user
+      `${this.url}/login/`, user
     ).subscribe((res: {token : string, expiresIn: number}) => {
       this.token = res.token;
       this.setToken(res.token)

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from "rxjs";
 
 import { Genre } from '../types';
 import { HttpClient } from "@angular/common/http";
@@ -11,7 +10,7 @@ import { HttpClient } from "@angular/common/http";
 export class GenreService {
 
   constructor(protected http: HttpClient) {}
-  private readonly url = "https://board-frenzy.onrender.com/api/genres/";
+  private readonly url = "https://board-frenzy.onrender.com/api/genres";
 
   getGenres(){
     return this.http.get<Genre[]>(this.url)

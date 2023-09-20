@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 
-import { Review, ReviewCreate } from '../types';
+import { ReviewBG, ReviewCreate, ReviewProfile } from '../types';
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -9,16 +9,20 @@ import { HttpClient } from "@angular/common/http";
 })
 export class ReviewService {
 
-  constructor(protected http: HttpClient) { }
+  constructor(protected http: HttpClient) {}
 
   private readonly url = "/api/review/";
 
-  getAllReviews() : Observable<Review[]>{
-    return this.http.get<Review[]>(this.url)
+  getAllReviews() : Observable<ReviewBG[]>{
+    return this.http.get<ReviewBG[]>(this.url)
   }
 
   getReviews(boardGameId: string){
-    return this.http.get<Review[]>(`${this.url}${boardGameId}`);
+    return this.http.get<ReviewBG[]>(`${this.url}${boardGameId}`);
+  }
+
+  getUserReviews(userId: string){
+    return this.http.get<ReviewProfile[]>(`/api/userreview/${userId}`);
   }
 
   createReview(review: ReviewCreate){

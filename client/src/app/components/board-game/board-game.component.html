@@ -1,44 +1,52 @@
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6 text-center">
+        <h1>{{ boardGame?.name }}</h1>
 
-<h2>{{ boardGame?.name }} Profile</h2>
-
-<button *ngIf="isAuthenticated" (click)="addReview()">Add Review</button>
-
-<div [hidden]="toReview">
-    <form [formGroup]="form" (ngSubmit)="submitForm()">
-        <div class="mb-3">
-            <label for="text" class="form-label">Text</label>
-            <input formControlName="text" type="text" class="form-control" id="text">
+        <button *ngIf="isAuthenticated" (click)="addReview()" class="btn btn-primary">Add Review</button>
         </div>
-        <div class="mb-3">
-            <select name="rating" formControlName="rating">
-                <option *ngFor="let number of numbersRating" [value]="number">{{ number }}</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <select name="weight" formControlName="weight">
-                <option *ngFor="let number of numbersWeight" [value]="number">{{ number }}</option>
-            </select>
-        </div>
-        <button [disabled]="!form.valid" type="submit" class="btn btn-primary" >Submit</button>
-    </form>
-</div>    
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-        <th>Text</th>
-        <th>Rating</th>
-        <th>Weight</th>
-        <th>User</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let review of reviews">
-        <td>{{ review.text }}</td>
-        <td>{{ review.rating }}</td>
-        <td>{{ review.weight }}</td>
-        <td>{{ review.creator[0].username }}</td>
-        </tr>
-    </tbody>
-</table>
+        <div [hidden]="toReview">
+            <form [formGroup]="form" (ngSubmit)="submitForm()">
+                <div class="mb-3">
+                    <label for="text" class="form-label">Text</label>
+                    <textarea formControlName="text" type="text" class="form-control" id="text"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <select name="rating" formControlName="rating" class="form-select">
+                        <option *ngFor="let number of numbersRating" [value]="number">{{ number }}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="weight" class="form-label">Weight</label>
+                    <select name="weight" formControlName="weight" class="form-select">
+                        <option *ngFor="let number of numbersWeight" [value]="number">{{ number }}</option>
+                    </select>
+                </div>
+                <button [disabled]="!form.valid" type="submit" class="btn btn-primary" >Submit</button>
+            </form>
+        </div>    
 
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+            <th>Text</th>
+            <th>Rating</th>
+            <th>Weight</th>
+            <th>User</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let review of reviews">
+            <td>{{ review.text }}</td>
+            <td>{{ review.rating }}</td>
+            <td>{{ review.weight }}</td>
+            <td>{{ review.creator[0].username }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

@@ -1,4 +1,4 @@
-<div>
+<div class="container">
     <form [formGroup]="form" (ngSubmit)="submitForm()">
         <div class="mb-3">
             <label for="nameInput" class="form-label">Name</label>
@@ -23,9 +23,10 @@
         <div class="mb-3">
             <label for="noPlayersMaxInput" class="form-label">noPlayersMax</label>
             <input formControlName="noPlayersMax" type="number" class="form-control" id="noPlayersMaxInput">
-        </div>
+        </div>    
         <div class="mb-3">
-            <select multiple name="genres" formControlName="genreIds">
+            <label for="genres" class="form-label">Genres</label>
+            <select class="form-select" multiple name="genres" formControlName="genreIds" id="genres">
                 <option *ngFor="let genre of genres" [value]="genre._id">{{ genre.name }}</option>
             </select>
         </div>

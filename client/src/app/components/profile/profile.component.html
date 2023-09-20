@@ -1,28 +1,40 @@
-<div *ngIf="user">
+<div class="container mt-5" *ngIf="user">
 
-<h1>{{user.username}}</h1>
+  <div class="row">
 
-<hr />
-<div class="avatar-upload">
-    <h2>Upload Avatar</h2>
-    <form (ngSubmit)="onSubmit()" enctype="multipart/form-data">
-      <div class="form-group">
-        <input
-          type="file"
-          id="avatar"
-          name="avatar"
-          accept="image/*"
-          (change)="onFileSelected($event)"
-          class="form-control-file"
-        />
+    <div class="col-md-3">
+      <img [src]="user.imagePath" alt="User Avatar" class="img-fluid mb-3" />
+
+      <div class="input-group">
+        <input type="file" class="form-control" accept="image/*" (change)="onFileSelected($event)" name="avatar" id="avatar" aria-describedby="avatar" aria-label="Upload">
+        <button [disabled]="!this.selectedFile" class="btn btn-outline-secondary" (click)="onSubmit()" type="button" id="inputGroupFileAddon04">Upload</button>
       </div>
-      <button type="submit" class="btn btn-primary">Upload</button>
-    </form>
-
-    <div *ngIf="user.imagePath" class="avatar-preview">
-        <h3>Uploaded Avatar:</h3>
-        <img [src]="user.imagePath" alt="User Avatar" />
     </div>
-</div>
 
+    <div class="col-md-9 text-center">
+      <h2> {{user.username}}</h2>
+    </div>
+  </div>
+
+  <div class="col text-center">
+    <h3> Your reviews </h3>
+  </div>
+  <table class="table table-striped">
+    <thead>
+        <tr>
+          <th>Text</th>
+          <th>Rating</th>
+          <th>Weight</th>
+          <th>Board Game</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let review of reviews">
+          <td>{{ review.text }}</td>
+          <td>{{ review.rating }}</td>
+          <td>{{ review.weight }}</td>
+          <td>{{ review.boardGame[0].name }}</td>
+        </tr>
+    </tbody>
+  </table>
 </div>

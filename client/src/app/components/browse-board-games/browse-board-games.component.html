@@ -1,32 +1,44 @@
-<div class="md-form">
-    <input type="search" [(ngModel)]="boardGameName" placeholder="Search">
+<div class="container">
+  <div class="row height d-flex justify-content-center align-items-center">
+
+    <div class="col-md-6">
+
+      <div class="form">
+        <i class="fa fa-search"></i>
+        <input type="text" class="form-control form-input" [(ngModel)]="boardGameName" placeholder="Search">
+        <span class="left-pan"><i class="fa fa-microphone"></i></span>
+      </div>
+      
+    </div>
+  </div>
+
+  <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Rating</th>
+          <th>Weight</th>
+          <th>Age</th>
+          <th>AvgPlayingTime</th>
+          <th>NoPlayersMin</th>
+          <th>NoPlayersMax</th>
+          <th>Publisher</th>
+          <th>Genres</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let boardgame of modifiedBoardGames | filter: boardGameName">
+          <td><a [routerLink]="[boardgame._id]" [queryParams]=" { boardGameId: boardgame._id }"> {{ boardgame.name }} </a></td>
+          <td>{{ boardgame.rating | number:'1.2-2' }}</td>
+          <td>{{ boardgame.weight | number:'1.2-2' }}</td>
+          <td>{{ boardgame.age.toString() | appendString : '+' }}</td>
+          <td>{{ boardgame.avgPlayingTime.toString() | appendString : ' min' }}</td>
+          <td>{{ boardgame.noPlayersMin }}</td>
+          <td>{{ boardgame.noPlayersMax }}</td>
+          <td>{{ boardgame.publisher }}</td>
+          <td>{{ boardgame.genreIds.join(', ') }}</td>
+        </tr>
+      </tbody>
+  </table>
 </div>
 
-<table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Rating</th>
-        <th>Weight</th>
-        <th>Age</th>
-        <th>AvgPlayingTime</th>
-        <th>NoPlayersMin</th>
-        <th>NoPlayersMax</th>
-        <th>Publisher</th>
-        <th>Genres</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let boardgame of modifiedBoardGames | filter: boardGameName">
-        <td><a [routerLink]="[boardgame._id]" [queryParams]=" { boardGameId: boardgame._id }"> {{ boardgame.name }} </a></td>
-        <td>{{ boardgame.rating | number:'1.2-2' }}</td>
-        <td>{{ boardgame.weight | number:'1.2-2' }}</td>
-        <td>{{ boardgame.age.toString() | appendString : '+' }}</td>
-        <td>{{ boardgame.avgPlayingTime.toString() | appendString : ' min' }}</td>
-        <td>{{ boardgame.noPlayersMin }}</td>
-        <td>{{ boardgame.noPlayersMax }}</td>
-        <td>{{ boardgame.publisher }}</td>
-        <td>{{ boardgame.genreIds.join(', ') }}</td>
-      </tr>
-    </tbody>
-</table>

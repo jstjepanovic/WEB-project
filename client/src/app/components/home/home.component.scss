@@ -1,24 +1,29 @@
 @import 'bootstrap/scss/bootstrap';
 @import '../../../variables.scss';
 
-#home-section {
-    height: 600px;
-
-    h1 {
-        font-weight: 700;
-    }
-
-    p {
-        font-size: 20px;
-    }
-
-    .curtain {
-        background-color: rgba($color: $primary, $alpha: 0.8);
-
-        img {
-            opacity: 0.8;
-        }
-
-    }
-
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
+ 
+.curtain{
+    text-align: center;
+}
+
+header {
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
+    }
+  
+    p {
+      font-size: 18px;
+      color: #666;
+    }
+}
+  
+#cards-section .curtain {
+    background: rgba(248, 249, 250, 0.8);
+}
+  

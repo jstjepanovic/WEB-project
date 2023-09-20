@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, FormControl, Validators } from "@angular/forms";
+import { Router } from '@angular/router';
 
 import { BoardGameService } from 'src/app/services/board-game.service';
 import { GenreService } from 'src/app/services/genre.service';
@@ -13,7 +14,7 @@ import { BoardGameCreate, Genre } from 'src/app/types';
 })
 export class ManageBoardGameComponent implements OnInit {
 
-  constructor( protected bgService: BoardGameService, protected genreService: GenreService ){}
+  constructor( protected bgService: BoardGameService, protected genreService: GenreService, private router: Router ){}
 
   genres : Genre[] = [];
 
@@ -44,6 +45,7 @@ export class ManageBoardGameComponent implements OnInit {
     this.form.reset();
     
     this.bgService.createBoardGame(boardGame);
+    this.router.navigate(['/browse']);
 
   }
 

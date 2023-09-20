@@ -27,7 +27,7 @@ export interface Genre {
     name: string
 }
 
-export interface Review {
+export interface ReviewBG {
     _id: string,
     rating: number,
     weight: number,
@@ -35,6 +35,14 @@ export interface Review {
     userId: string,
     boardGameId: string,
     creator: {username : string}[]
+}
+
+export interface ReviewProfile {
+    _id: string,
+    rating: number,
+    weight: number,
+    text: string,
+    boardGame: {name : string}[]
 }
 
 export interface ReviewCreate {

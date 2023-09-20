@@ -24,6 +24,7 @@ const CreateReview = async (db, review) =>{
     const rcollection = db.collection("reviews");
 
     review.userId = new mongodb.ObjectId(review.userId);
+    review.boardGameId = new mongodb.ObjectId(review.boardGameId);
 
     let toReturn = await rcollection.insertOne(review);
     
@@ -40,6 +41,7 @@ const FindAllReviews = async (db) =>{
 
 const FindReviews = async (db, boardGameId) =>{
     const collection = db.collection("reviews");
+    boardGameId = new mongodb.ObjectId(boardGameId);
 
     const pipeline = [
         {
@@ -62,7 +64,6 @@ const FindReviews = async (db, boardGameId) =>{
                 'text': 1,
                 'userId': 1,
                 'boardGameId': 1,
-                'rating': 1,
                 'creator.username': 1
             },
           },
@@ -70,6 +71,39 @@ const FindReviews = async (db, boardGameId) =>{
 
     result = await collection.aggregate(pipeline).toArray();
     return result
+}
+
+const FindUserReviews = async (db, user_Id) =>{
+  const collection = db.collection("reviews");
+  let userId = new mongodb.ObjectId(user_Id);
+
+  const pipeline = [
+    {
+        $match: {
+          userId: userId,
+        },
+      },
+      {
+        $lookup: {
+          from: 'boardGames',
+          localField: 'boardGameId',
+          foreignField: '_id',
+          as: 'boardGame',
+        },
+      },
+      {
+        $project: {
+            'rating': 1,
+            'weight': 1,
+            'text': 1,
+            'boardGame.name': 1
+        },
+      },
+  ];
+
+  result = await collection.aggregate(pipeline).toArray();
+  
+  return result
 }
 
 const UpdateReview = async (db, reviewId, review) =>{
@@ -98,4 +132,4 @@ const DeleteReview = async (db, reviewId) =>{
     return toReturn;
 }
 
-module.exports = { CreateReview, FindAllReviews, FindReviews, UpdateReview, DeleteReview }
+module.exports = { CreateReview, FindAllReviews, FindReviews, UpdateReview, DeleteReview, FindUserReviews }

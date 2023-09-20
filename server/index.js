@@ -1,6 +1,8 @@
 const express = require("express");
-const mongodb = require("mongodb");
 const path = require("path");
+const https = require("https");
+const fs = require("fs");
+
 const dbConnect = require("./Database/connect");
 const dbBoardGame = require("./Database/databaseBoardGame");
 const dbReview = require("./Database/databaseReview");
@@ -10,6 +12,9 @@ const dbUser = require("./Database/databaseUser")
 const crypto = require("crypto");
 const util = require("util");
 const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser")
+const csurf = require("csurf");
+
 
 const multer = require('multer');
 
@@ -26,6 +31,8 @@ const upload = multer({ storage: storage });
 const randomBytesAsync = util.promisify(crypto.randomBytes);
 const pbkdf2Async = util.promisify(crypto.pbkdf2);
 
+const csrfProtection = csurf({ cookie: true });
+
 secret = "j7Jg3WajQNODdcM0hD03"
 
 const port = 3000;
@@ -35,6 +42,12 @@ const port = 3000;
     app.use(express.urlencoded({ extended: false }));
     app.use(express.json());
     app.use('/images', express.static(path.join(__dirname, 'images')));
+    app.use(cookieParser());
+
+    app.get('/csrfEndpoint', csrfProtection, (req, res, next) => {
+        res.cookie('XSRF-TOKEN', req.csrfToken(), { httpOnly: false });
+    })
+    
 
     let db = await dbConnect.ConnectDatabase("BoardFrenzy");
 
@@ -93,6 +106,11 @@ const port = 3000;
     app.get("/api/review/:boardGameId", async (req, res) => {
 
         res.send(await dbReview.FindReviews(db, req.params.boardGameId));
+    });
+
+    app.get("/api/userreview/:userId", async (req, res) => {
+
+        res.send(await dbReview.FindUserReviews(db, req.params.userId));
     });
 
     app.post("/api/review", (req, res, next) =>{
@@ -173,7 +191,7 @@ const port = 3000;
             console.error(error);
             res.status(500).json({ message: 'Registration failed' });
         }
-    });
+    }); 
      
     app.post('/api/login', async (req, res) => {
         try {
@@ -204,9 +222,22 @@ const port = 3000;
     });
 
     
- 
+    /*
+    https
+    .createServer(
+        {
+        key: fs.readFileSync("./ssl/key.pem"),
+        cert: fs.readFileSync("./ssl/cert.pem"),
+        },
+        app
+    )
+    .listen(port, () => {
+        console.log("server is listening at port ${port}");
+    });
+    */
+
     app.listen(port, () => {
         console.log(`Server is listening at ${port}`);
-    }); 
+    });
 
 })();

@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 import { BoardGameService } from 'src/app/services/board-game.service';
 import { ReviewService } from 'src/app/services/review.service';
 import { UserService } from 'src/app/services/user.service';
-import { BoardGame, Review, ReviewCreate } from 'src/app/types';
+import { BoardGame, ReviewBG, ReviewCreate } from 'src/app/types';
 
 @Component({
   selector: 'app-board-game',
@@ -16,7 +16,7 @@ import { BoardGame, Review, ReviewCreate } from 'src/app/types';
 export class BoardGameComponent implements OnInit, OnDestroy {
   userId: string = '';
   boardGameId: string = '';
-  reviews: Review[] = [];
+  reviews: ReviewBG[] = [];
   boardGame: BoardGame | null = null;
   numbersRating: number[] = Array.from({ length: 10 }, (_, i) => i + 1);
   numbersWeight: number[] = Array.from({ length: 5 }, (_, i) => i + 1);
@@ -61,6 +61,7 @@ export class BoardGameComponent implements OnInit, OnDestroy {
     }
   }
 
+
   addReview() {
     this.toReview = !this.toReview;
   }
@@ -79,6 +80,7 @@ export class BoardGameComponent implements OnInit, OnDestroy {
 
     this.reviewService.createReview(newReview);
 
+    window.location.reload();
   }
 
 }

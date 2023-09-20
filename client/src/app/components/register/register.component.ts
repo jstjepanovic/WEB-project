@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserCreate } from 'src/app/types';
 
 import { UserService } from 'src/app/services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -11,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegisterComponent {
 
-  constructor(protected userService: UserService){}
+  constructor(protected userService: UserService, private router: Router){}
 
   form: FormGroup = new FormGroup({
     username: new FormControl("", [Validators.required]),
@@ -22,6 +23,7 @@ export class RegisterComponent {
     let user: UserCreate = this.form.value;
     this.form.reset();
 
-    this.userService.register(user)
+    this.userService.register(user);
+    this.router.navigate(['/login']);
   }
 }

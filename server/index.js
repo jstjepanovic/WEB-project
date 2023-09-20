@@ -49,10 +49,10 @@ const mongoUrl = process.env.MONGO_URL;
         res.cookie('XSRF-TOKEN', req.csrfToken(), { httpOnly: false });
     })
     
-
+ 
     let db = await dbConnect.ConnectDatabase("BoardFrenzy", mongoUrl);
 
-    // dbGenres.CreateGenres(db, dbGenres.genres)
+    //dbGenres.CreateGenres(db, dbGenres.genres)
 
     app.get("/api/genres", async (req, res) => {
 

@@ -1,7 +1,13 @@
 const mongodb = require("mongodb");
 
 const ConnectDatabase = async (name, url) =>{
-    const client = new mongodb.MongoClient(url);
+    const client = new mongodb.MongoClient(url, {
+        serverApi: {
+          version: mongodb.ServerApiVersion.v1,
+          strict: true,
+          deprecationErrors: true,
+        }
+    });
 
     let db;
     try {

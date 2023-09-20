@@ -45,7 +45,6 @@ export class ManageBoardGameComponent implements OnInit {
     this.form.reset();
     
     this.bgService.createBoardGame(boardGame);
-    this.router.navigate(['/browse']);
 
   }
 

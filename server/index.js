@@ -5,6 +5,7 @@ const fs = require("fs");
 
 const dbConnect = require("./Database/connect");
 const dbBoardGame = require("./Database/databaseBoardGame");
+require('dotenv').config();
 const dbReview = require("./Database/databaseReview");
 const dbGenres = require("./Database/databaseGenre");
 const dbUser = require("./Database/databaseUser")
@@ -33,9 +34,9 @@ const pbkdf2Async = util.promisify(crypto.pbkdf2);
 
 const csrfProtection = csurf({ cookie: true });
 
-secret = "j7Jg3WajQNODdcM0hD03"
-
-const port = 3000;
+const secret = process.env.SECRET;
+const port = process.env.PORT;
+const mongoUrl = process.env.MONGO_URL;
 
 (async () => {
     const app = express();
@@ -49,7 +50,7 @@ const port = 3000;
     })
     
 
-    let db = await dbConnect.ConnectDatabase("BoardFrenzy");
+    let db = await dbConnect.ConnectDatabase("BoardFrenzy", mongoUrl);
 
     // dbGenres.CreateGenres(db, dbGenres.genres)
 

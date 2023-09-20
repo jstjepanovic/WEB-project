@@ -159,7 +159,7 @@ const mongoUrl = process.env.MONGO_URL;
         }
       
         const filePath = req.file.path;
-        const baseUrl = 'http://localhost:3000';
+        const baseUrl = 'https://board-frenzy.onrender.com';
       
         res.send(await dbUser.UpdateAvatar(db, req.params.userId, baseUrl + '/images/' + path.basename(filePath)));
       });
